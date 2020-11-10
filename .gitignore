@@ -126,3 +126,7 @@ dmypy.json
 
 # Ad hoc testing files
 test_run.py
+
+# vscode
+.vscode
+steamid-converter-venv

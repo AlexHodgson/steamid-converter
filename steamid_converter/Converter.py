@@ -2,15 +2,30 @@ import re
 import math
 
 def to_steamID(steamID):
-    """Convert to steamID from steamID3 or steamID64
+    """
+    Convert to steamID
 
-    Parameters:
-    int/str : steamID - Steam id to convert
+    A steamID is unique to each steam account, 
+    Formatted with digits as x "STEAM_0:x:xxxxxxxx"
+
+    Parameters
+    ----------
+    steamID : int or str
+        steamID3 or steamID64 to convert to steamID
+
+    Returns
+    -------
+    str
+        steamID value
+
     """
 
     id_str = str(steamID)
 
-    if re.search("^\[.*\]$", id_str): # If passed steamID3
+    if re.search("^STEAM_", id_str): # Already a steamID
+        return id_str
+
+    elif re.search("^\[.*\]$", id_str): # If passed steamID3
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
         account_id3 = int(id_split[2][:-1]) # Remove ] from end of steamID3
@@ -40,15 +55,30 @@ def to_steamID(steamID):
     return "STEAM_0:" + str(account_type) + ":" + str(account_id)
 
 def to_steamID3(steamID):
-    """Convert to steamID3 from steamID or steamID64
+    """
+    Convert to steamID3
 
-    Parameters:
-    int/str : steamID - Steam id to convert
+    A steamID3 is unique to each steam account, 
+    Formatted with digits as x "[U:1:xxxxxxxx]"
+
+    Parameters
+    ----------
+    steamID : int or str
+        steamID or steamID64 to convert to steamID3
+
+    Returns
+    -------
+    str
+        steamID3 value
+
     """
 
     id_str = str(steamID)
 
-    if re.search("^STEAM_", id_str): # If passed steamID
+    if re.search("^\[.*\]$", id_str): # Already a steamID3
+        return id_str
+
+    elif re.search("^STEAM_", id_str): # If passed steamID
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
 
@@ -81,18 +111,38 @@ def to_steamID3(steamID):
 
 
 def to_steamID64(steamID, as_int = False):
-    """Convert to steamID64 from steamID or steamID3
+    """
+    Convert to steamID64
 
-    Parameters:
-    int/str : steamID - Steam id to convert
-    Bool  : as_int - If the steamID64 is returned in integer format, Default = False
+    A steamID64 is a 17 digit number, unique to each steam account
+
+    Parameters
+    ----------
+    steamID : int or str
+        steamID or steamID3 to convert to steamID64
+    as_int : bool
+        If the steamID64 is returned as an integer rather than string, Default = False
+
+    Returns
+    -------
+    int or str
+        steamID64 value
+
     """
 
     id_str = str(steamID)
     id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
     id64_base = 76561197960265728 # steamID64 are all offset from this value
 
-    if re.search("^STEAM_", id_str): # If passed steamID
+    if id_str.isnumeric(): # Already a steamID64
+
+        check_steamID64_length(id_str) # Validate id passed in
+        if as_int:
+            return id64
+        else:
+            return str(id64)
+
+    elif re.search("^STEAM_", id_str): # If passed steamID
         
         account_type = int(id_split[1]) # Check for account type
         account_id = int(id_split[2]) # Account number, needs to be doubled when added to id64
@@ -122,7 +172,17 @@ def to_steamID64(steamID, as_int = False):
 
 
 def check_steamID64_length(id_str :str):
-    # All steamId64 should be 17 digits in length
+    """
+    Check if a steamID64 is of the correct length, raises ValueError if not.
+
+    Not really for you to use
+
+    Parameters
+    ----------
+    id_str : str
+        steamID64 to check length of
+
+    """
 
     if len(id_str) != 17:
         raise ValueError(f"Incorrect length for steamID64: {id_str}")

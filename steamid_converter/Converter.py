@@ -1,6 +1,10 @@
 import re
 import math
 
+# Define some regex stuff
+steam_id_regex = "^STEAM_"
+steam_id3_regex = "^\[.*\]$"
+
 def to_steamID(steamID):
     """
     Convert to steamID
@@ -22,10 +26,10 @@ def to_steamID(steamID):
 
     id_str = str(steamID)
 
-    if re.search("^STEAM_", id_str): # Already a steamID
+    if re.search(steam_id_regex, id_str): # Already a steamID
         return id_str
 
-    elif re.search("^\[.*\]$", id_str): # If passed steamID3
+    elif re.search(steam_id3_regex, id_str): # If passed steamID3
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
         account_id3 = int(id_split[2][:-1]) # Remove ] from end of steamID3
@@ -75,10 +79,10 @@ def to_steamID3(steamID):
 
     id_str = str(steamID)
 
-    if re.search("^\[.*\]$", id_str): # Already a steamID3
+    if re.search(steam_id3_regex, id_str): # Already a steamID3
         return id_str
 
-    elif re.search("^STEAM_", id_str): # If passed steamID
+    elif re.search(steam_id_regex, id_str): # If passed steamID
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
 
@@ -138,16 +142,16 @@ def to_steamID64(steamID, as_int = False):
 
         check_steamID64_length(id_str) # Validate id passed in
         if as_int:
-            return id64
+            return int(id_str)
         else:
-            return str(id64)
+            return id_str
 
-    elif re.search("^STEAM_", id_str): # If passed steamID
+    elif re.search(steam_id_regex, id_str): # If passed steamID
         
         account_type = int(id_split[1]) # Check for account type
         account_id = int(id_split[2]) # Account number, needs to be doubled when added to id64
 
-    elif re.search("^\[.*\]$", id_str): # If passed steamID3
+    elif re.search(steam_id3_regex, id_str): # If passed steamID3
 
         account_id3 = int(id_split[2][:-1]) # Remove ] from end of steamID3
 
@@ -186,6 +190,8 @@ def check_steamID64_length(id_str :str):
 
     if len(id_str) != 17:
         raise ValueError(f"Incorrect length for steamID64: {id_str}")
+
+
 
 
 

@@ -16,19 +16,28 @@ def to_steamID3(steamID):
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
 
-        account_type = id_split[1]
-        account_id = id_split[2]
+        account_type = int(id_split[1]) # Check for account type
+        account_id = int(id_split[2]) # Account number, needs to be doubled when added to id3
+
+        return "[U:1:" + str((account_id * 2) - account_type) + "]"
 
 
 
 
-    elif isnumeric(id_str): # Passed steamID64
+    elif id_str.isnumeric(): # Passed steamID64
 
         id64_base = 76561197960265728 # steamID64 are all offset from this value
 
-        
+        offset_id = int(id_str) - id64_base
 
+        if offset_id % 2 == 0:
+            account_type = 0
+            account_id = offset_id // 2
+        else:
+            account_type = 1
+            account_id = ((offset_id - 1) // 2) + 1
 
+        return "[U:1:" + str((account_id * 2) - account_type) + "]"
 
 
 def to_steamID64(steamID):
@@ -40,10 +49,9 @@ def to_steamID64(steamID):
 
     id_str = str(steamID)
     id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
+    id64_base = 76561197960265728 # steamID64 are all offset from this value
 
     if re.search("^STEAM_", id_str): # If passed steamID
-
-        id64_base = 76561197960265728 # steamID64 are all offset from this value
         
         account_type = int(id_split[1]) # Check for account type
         account_id = int(id_split[2]) # Account number, needs to be doubled when added to id64
@@ -52,7 +60,7 @@ def to_steamID64(steamID):
 
     elif re.search("^\[.*\]$", id_str): # If passed steamID3
 
-        account_id3 = int(id_split[2][:-1]) # Remove ] from end of id3
+        account_id3 = int(id_split[2][:-1]) # Remove ] from end of steamID3
 
         if account_id3 % 2 == 0:
             account_type = 0
@@ -61,9 +69,8 @@ def to_steamID64(steamID):
             account_type = 1
             account_id = (account_id3 - 1) // 2
 
-        id64_str = "7656119" + str((account_id * 2) + (7960265728 + account_type))
+        return id64_base + (account_id * 2) + account_type
 
-        return int(id64_str)
     else:
         raise ValueError(f"Unable to decode steamID: {steamID}")
 

@@ -7,6 +7,11 @@ def to_steamID3(steamID):
     pass
 
 def to_steamID64(steamID):
+    """Convert steamID or steamID3 to steamID64
+
+    Parameters:
+    int/str : steamID - Steam id to convert
+    """
 
     id_str = str(steamID)
 
@@ -34,12 +39,11 @@ def to_steamID64(steamID):
             account_type = 1
             account_id = (account_id3 - 1) // 2
 
-        print(account_id, account_type)
-
         id64_str = "7656119" + str((account_id * 2) + (7960265728 + account_type))
-        #print(id64_str)
 
         return int(id64_str)
+    else:
+        raise ValueError(f"Unable to decode steamID: {steamID}")
 
 
 

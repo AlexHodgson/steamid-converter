@@ -123,3 +123,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ad hoc testing files
+test_run.py

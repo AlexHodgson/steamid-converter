@@ -4,10 +4,7 @@ def to_steamID(steamID):
     pass
 
 def to_steamID3(steamID):
-    pass
-
-def to_steamID64(steamID):
-    """Convert steamID or steamID3 to steamID64
+    """Convert to steamID3 from steamID or steamID64
 
     Parameters:
     int/str : steamID - Steam id to convert
@@ -17,9 +14,36 @@ def to_steamID64(steamID):
 
     if re.search("^STEAM_", id_str): # If passed steamID
 
+        id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
+
+        account_type = id_split[1]
+        account_id = id_split[2]
+
+
+
+
+    elif isnumeric(id_str): # Passed steamID64
+
         id64_base = 76561197960265728 # steamID64 are all offset from this value
 
-        id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
+        
+
+
+
+
+def to_steamID64(steamID):
+    """Convert to steamID64 from steamID or steamID3
+
+    Parameters:
+    int/str : steamID - Steam id to convert
+    """
+
+    id_str = str(steamID)
+    id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
+
+    if re.search("^STEAM_", id_str): # If passed steamID
+
+        id64_base = 76561197960265728 # steamID64 are all offset from this value
         
         account_type = int(id_split[1]) # Check for account type
         account_id = int(id_split[2]) # Account number, needs to be doubled when added to id64
@@ -27,8 +51,6 @@ def to_steamID64(steamID):
         return id64_base + (account_id * 2) + account_type
 
     elif re.search("^\[.*\]$", id_str): # If passed steamID3
-        
-        id_split = id_str.split(":") # Split steamID3
 
         account_id3 = int(id_split[2][:-1]) # Remove ] from end of id3
 

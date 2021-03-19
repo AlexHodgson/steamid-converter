@@ -1,5 +1,5 @@
 import sys
-sys.path.append(r'A:\Documents\GitHub\steamid-converter\steamid_converter') # TODO make this relative
+sys.path.append(sys.path[0] + r'\..\steamid_converter') # TODO make this relative
 
 import unittest
 import Converter # Code being tested
@@ -46,6 +46,12 @@ class TestHelpers(unittest.TestCase):
         
         self.assertRaises(ValueError, Converter.check_steamID64_length, "1"*15) # Raises error if steamID64 is not 17 digits, does nothing otherwise
         self.assertIsNone(Converter.check_steamID64_length("1"*17))
+
+    # Check wrapper is consistent
+    def test_conversion_wrapper(self):
+        self.assertEqual(Converter.to_steamID("76561197972191978"), Converter.convert_steamID("76561197972191978",'SteamID'))
+        self.assertEqual(Converter.to_steamID3("76561197972191978"), Converter.convert_steamID("76561197972191978",'SteamID3'))
+        self.assertEqual(Converter.to_steamID64("[U:1:94253115]"), Converter.convert_steamID("76561198054518843",'SteamID64'))
 
 if __name__ == '__main__':
     unittest.main()

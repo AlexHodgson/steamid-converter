@@ -5,6 +5,47 @@ import math
 steam_id_regex = "^STEAM_"
 steam_id3_regex = "^\[.*\]$"
 
+# steamID64 are all offset from this value
+id64_base = 76561197960265728 
+
+def convert_steamID(steamID,target_format :str,as_int=False):
+    """
+    Wrapper for conversion methods to allow you to call different conversions via the same function
+
+    Parameters
+    ----------
+    steamID : int or str
+        steamID of any format to convert
+    
+    target_format : str
+        Format to convert steamId to
+        Possible values are: SteamID, SteamID3, SteamID64
+
+    as_int : bool
+        If a SteamId64 is returned as an int or a string
+        Only used when target_format = SteamId64
+        Default = False
+
+
+    Returns
+    -------
+    int or str
+        steamID value
+
+    """
+
+    if target_format == 'SteamID':
+        return to_steamID(steamID)
+
+    elif target_format == 'SteamID3':
+        return to_steamID3(steamID)
+
+    elif target_format == 'SteamID64':
+        return to_steamID64(steamID, as_int)
+
+    else:
+        raise ValueError("Incorrect target Steam ID format. Target_format must be one of: SteamID, SteamID3, SteamID64")
+
 def to_steamID(steamID):
     """
     Convert to steamID
@@ -45,7 +86,6 @@ def to_steamID(steamID):
 
         check_steamID64_length(id_str) # Validate id passed in
 
-        id64_base = 76561197960265728 # steamID64 are all offset from this value
         offset_id = int(id_str) - id64_base
 
         # Get the account type and id
@@ -96,7 +136,6 @@ def to_steamID3(steamID):
         
         check_steamID64_length(id_str) # Validate id passed in
 
-        id64_base = 76561197960265728 # steamID64 are all offset from this value
         offset_id = int(id_str) - id64_base
 
         # Get the account type and id
@@ -136,7 +175,6 @@ def to_steamID64(steamID, as_int = False):
 
     id_str = str(steamID)
     id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
-    id64_base = 76561197960265728 # steamID64 are all offset from this value
 
     if id_str.isnumeric(): # Already a steamID64
 

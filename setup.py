@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="steamid-converter",
-    version="1.0.0",
+    version="1.0.1",
     author="Alex Hodgson",
     author_email="alex.hodgson@sci-fact.com",
     description="Package for easy conversion between steamID formats",

@@ -3,6 +3,7 @@ sys.path.append(sys.path[0] + r'\..\steamid_converter') # TODO make this relativ
 
 import unittest
 import Converter # Code being tested
+import logging
 
 class TestConversions(unittest.TestCase):
     '''
@@ -12,7 +13,6 @@ class TestConversions(unittest.TestCase):
 
     def test_steamID(self): 
         '''Test conversion to steamID'''
-
         self.assertEqual(Converter.to_steamID("76561197972191978"), "STEAM_0:0:5963125") # Test a known conversion
         self.assertEqual(Converter.to_steamID("76561198054518843"), "STEAM_0:1:47126557")
 
@@ -51,7 +51,7 @@ class TestHelpers(unittest.TestCase):
     def test_conversion_wrapper(self):
         self.assertEqual(Converter.to_steamID("76561197972191978"), Converter.convert_steamID("76561197972191978",'SteamID'))
         self.assertEqual(Converter.to_steamID3("76561197972191978"), Converter.convert_steamID("76561197972191978",'SteamID3'))
-        self.assertEqual(Converter.to_steamID64("[U:1:94253115]"), Converter.convert_steamID("76561198054518843",'SteamID64'))
+        self.assertEqual(Converter.to_steamID64("[U:1:94253115]"), Converter.convert_steamID("[U:1:94253115]",'SteamID64'))
 
 if __name__ == '__main__':
     unittest.main()

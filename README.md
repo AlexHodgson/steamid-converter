@@ -4,7 +4,7 @@ Provides conversions between different SteamID formats in Python
 
 [![Downloads](https://pepy.tech/badge/steamid-converter)](https://pepy.tech/project/steamid-converter) 
 [![GitHub license](https://img.shields.io/github/license/AlexHodgson/steamid-converter)](https://github.com/AlexHodgson/steamid-converter/blob/main/LICENSE)
-#
+
 
 ## Overview
 

@@ -2,13 +2,13 @@ import re
 import math
 
 # Define some regex stuff
-steam_id_regex = "^STEAM_"
-steam_id3_regex = "^\[.*\]$"
+STEAM_ID_REGEX = "^STEAM_"
+STEAM_ID_3_REGEX = "^\[.*\]$"
 
 # steamID64 are all offset from this value
-id64_base = 76561197960265728 
+ID64_BASE = 76561197960265728 
 
-def convert_steamID(steamID,target_format :str,as_int=False):
+def convert_steamID(steamID, target_format:str, as_int=False):
     """
     Wrapper for conversion methods to allow you to call different conversions via the same function
 

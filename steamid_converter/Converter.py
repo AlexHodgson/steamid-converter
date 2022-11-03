@@ -67,18 +67,15 @@ def to_steamID(steamID):
 
     id_str = str(steamID)
 
-    if re.search(steam_id_regex, id_str): # Already a steamID
+    if re.search(STEAM_ID_REGEX, id_str): # Already a steamID
         return id_str
 
-    elif re.search(steam_id3_regex, id_str): # If passed steamID3
+    elif re.search(STEAM_ID_3_REGEX, id_str): # If passed steamID3
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
         account_id3 = int(id_split[2][:-1]) # Remove ] from end of steamID3
 
-        if account_id3 % 2 == 0:
-            account_type = 0
-        else:
-            account_type = 1
+        account_type = account_id3 % 2
 
         account_id = (account_id3 - account_type) // 2
 
@@ -86,13 +83,10 @@ def to_steamID(steamID):
 
         check_steamID64_length(id_str) # Validate id passed in
 
-        offset_id = int(id_str) - id64_base
+        offset_id = int(id_str) - ID64_BASE
 
         # Get the account type and id
-        if offset_id % 2 == 0:
-            account_type = 0
-        else:
-            account_type = 1
+        account_type = offset_id % 2
 
         account_id = ((offset_id - account_type) // 2)
 
@@ -119,10 +113,10 @@ def to_steamID3(steamID):
 
     id_str = str(steamID)
 
-    if re.search(steam_id3_regex, id_str): # Already a steamID3
+    if re.search(STEAM_ID_3_REGEX, id_str): # Already a steamID3
         return id_str
 
-    elif re.search(steam_id_regex, id_str): # If passed steamID
+    elif re.search(STEAM_ID_REGEX, id_str): # If passed steamID
 
         id_split = id_str.split(":") # Split string into 'Universe', Account type, and Account number
 
@@ -136,13 +130,10 @@ def to_steamID3(steamID):
         
         check_steamID64_length(id_str) # Validate id passed in
 
-        offset_id = int(id_str) - id64_base
+        offset_id = int(id_str) - ID64_BASE
 
         # Get the account type and id
-        if offset_id % 2 == 0:
-            account_type = 0
-        else:
-            account_type = 1
+        account_type = offset_id % 2
 
         account_id = ((offset_id - account_type) // 2) + account_type
 
@@ -184,19 +175,16 @@ def to_steamID64(steamID, as_int = False):
         else:
             return id_str
 
-    elif re.search(steam_id_regex, id_str): # If passed steamID
+    elif re.search(STEAM_ID_REGEX, id_str): # If passed steamID
         
         account_type = int(id_split[1]) # Check for account type
         account_id = int(id_split[2]) # Account number, needs to be doubled when added to id64
 
-    elif re.search(steam_id3_regex, id_str): # If passed steamID3
+    elif re.search(STEAM_ID_3_REGEX, id_str): # If passed steamID3
 
         account_id3 = int(id_split[2][:-1]) # Remove ] from end of steamID3
 
-        if account_id3 % 2 == 0:
-            account_type = 0
-        else:
-            account_type = 1
+        account_type = account_id3 % 2
 
         account_id = (account_id3 - account_type) // 2
 
@@ -204,7 +192,7 @@ def to_steamID64(steamID, as_int = False):
         raise ValueError(f"Unable to decode steamID: {steamID}")
 
 
-    id64 = id64_base + (account_id * 2) + account_type
+    id64 = ID64_BASE + (account_id * 2) + account_type
 
     # Check if returning as string or integer
     if as_int:

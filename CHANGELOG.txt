@@ -2,3 +2,9 @@ v1.0.0 2020/11/10
 
 Initial release of the package
 Contains functionality for converting between the 3 steamID types
+
+v1.0.1 2022/11/03
+
+Wrapper function for all 3 conversions
+Minor syntax updates
+Fix a test case that did nothing

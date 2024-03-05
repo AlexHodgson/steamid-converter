@@ -26,6 +26,32 @@ Each function can take any of the steamID formats (Including the function's targ
 ### Avaliable Functions
 
 ```python
+Converter.convert_steamID(steamID, target_format, as_int=False):
+"""
+Wrapper for conversion methods to allow you to call different conversions via the same function
+
+Parameters
+----------
+steamID : int or str
+    steamID of any format to convert
+
+target_format : str
+    Format to convert steamId to
+    Possible values are: SteamID, SteamID3, SteamID64
+
+as_int : bool
+    If a SteamId64 is returned as an int or a string
+    Only used when target_format = SteamId64
+    Default = False
+
+
+Returns
+-------
+int or str
+    steamID value
+
+"""
+
 Converter.to_steamID(steamID)
 """
 Convert to steamID

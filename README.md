@@ -67,7 +67,7 @@ steamID : int or str
 Returns
 -------
 str
-    steamID value
+    steamID value in desired format
 
 """
 

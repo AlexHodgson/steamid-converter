@@ -48,7 +48,7 @@ as_int : bool
 Returns
 -------
 int or str
-    steamID value value in desired format
+    steamID value in desired format
 
 """
 

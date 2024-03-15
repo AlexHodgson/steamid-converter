@@ -115,4 +115,4 @@ int or str
 
 This package was created by [Alex Hodgson](https://github.com/AlexHodgson)
 
-Steam is a copyright of Valve Corporation, Valve Corporation is in no way affiliated with this package or it's author.
+Steam is a copyright of Valve Corporation, Valve Corporation is in no way affiliated with this package or its author.
